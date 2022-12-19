@@ -104,7 +104,7 @@ class OrderCard extends StatelessWidget {
                   style: TextStyle(
 
                   ),
-                )
+                ),
               ],
             )
           ],
