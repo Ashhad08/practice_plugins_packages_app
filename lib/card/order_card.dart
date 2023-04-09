@@ -98,12 +98,9 @@ class OrderCard extends StatelessWidget {
                   color: Colors.blue,
                   size: 20,
                 ),
-
                 const Text(
                   'Procssing',
-                  style: TextStyle(
-
-                  ),
+                  style: TextStyle(),
                 )
               ],
             )

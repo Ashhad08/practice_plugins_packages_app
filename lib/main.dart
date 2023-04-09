@@ -1,9 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-import 'card/order_card.dart';
+import 'chart.dart';
+import 'chat_head.dart';
+import 'home_page.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  listenForPermissions();
   runApp(const MyApp());
+}
+
+void listenForPermissions() async {
+  final status = await Permission.microphone.status;
+  switch (status) {
+    case PermissionStatus.denied:
+      requestForPermission();
+      break;
+    case PermissionStatus.granted:
+      break;
+    case PermissionStatus.limited:
+      break;
+    case PermissionStatus.permanentlyDenied:
+      break;
+    case PermissionStatus.restricted:
+      requestForPermission();
+      break;
+  }
+}
+
+Future<void> requestForPermission() async {
+  await Permission.microphone.request();
+}
+
+@pragma("vm:entry-point")
+void overlayMain() {
+  WidgetsFlutterBinding.ensureInitialized();
+  listenForPermissions();
+  runApp(
+    const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: MessengerChatHead(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -11,11 +50,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Online Qassai',
-      // theme: AppTheme.kThemeData(context),
-      home: Orders(),
+      title: 'Chat GPT Overlay Bot',
+      home: LineChartSample2(),
     );
   }
 }
